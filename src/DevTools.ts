@@ -138,6 +138,8 @@ export class DevTools extends Pane {
 
         folder.element.addEventListener('click', () => this.saveState());
 
+        this.loadState();
+
         return folder;
     }
 
