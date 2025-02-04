@@ -1,0 +1,49 @@
+{
+    "name": "dev-tools",
+    "version": "0.0.1",
+    "description": "It is a module to help developers to test and debug web applications.",
+    "homepage": "https://github.com/CyberDex/devTools",
+    "bugs": "https://github.com/CyberDex/devTools/issues",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/CyberDex/devTools.git"
+    },
+    "license": "MIT",
+    "author": "CyberDex",
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "import": "./lib/index.mjs",
+            "require": "./lib/index.js",
+            "types": "./lib/index.d.ts"
+        }
+    },
+    "main": "lib/index.js",
+    "module": "lib/index.mjs",
+    "types": "lib/index.d.ts",
+    "files": [
+        "lib/",
+        "dist/"
+    ],
+    "scripts": {
+        "start": "npm i && vite",
+        "build": "vite build"
+    },
+    "dependencies": {
+        "@pixi/app": "^7.4.2",
+        "@pixi/ticker": "^7.4.2",
+        "@tweakpane/core": "^2.0.5",
+        "eruda": "^3.4.1",
+        "localstorage-slim": "^2.7.1",
+        "pixi-stats": "^3.1.1",
+        "tweakpane": "^4.0.5"
+    },
+    "devDependencies": {
+        "@nabla/vite-plugin-eslint": "^2.0.5",
+        "@types/node": "^18.19.22",
+        "typescript": "^5.4.2"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
