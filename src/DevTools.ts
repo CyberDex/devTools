@@ -12,6 +12,7 @@ type Position = {
 };
 
 type DevToolsConfig = {
+    app: Application;
     position?: Position;
     gameName?: string;
     gameVersion?: string;
@@ -22,9 +23,9 @@ export class DevTools extends Pane {
     private app!: Application;
 
     pixiStats!: PixiStats | null;
-    debugFolder: FolderApi;
+    debugFolder!: FolderApi;
 
-    constructor(private config?: DevToolsConfig) {
+    constructor(private config: DevToolsConfig) {
         const container = document.createElement('div');
 
         container.style.maxHeight = '100%';
@@ -39,9 +40,11 @@ export class DevTools extends Pane {
 
         this.container = container;
         this.setPosition(config?.position);
+
+        this.config?.app && this.init(this.config?.app);
     }
 
-    async init(app: Application) {
+    private async init(app: Application) {
         this.app = app;
 
         (globalThis as any).__PIXI_APP__ = app;
@@ -51,7 +54,7 @@ export class DevTools extends Pane {
             expanded: false,
         });
 
-        console.log(`💀 DevTools ${this.config.gameName} ${this.config.gameVersion}`);
+        console.log(`💀 ${this.config.gameName} ${this.config.gameVersion}`);
 
         this.element.querySelector('.tp-rotv_b')?.addEventListener('click', () => this.saveState());
 
