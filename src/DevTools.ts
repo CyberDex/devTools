@@ -4,7 +4,7 @@ import type { FolderApi } from 'tweakpane';
 import { Pane } from 'tweakpane';
 import ls from 'localstorage-slim';
 import type { BindingApi, BladeState, ButtonApi, FolderParams } from '@tweakpane/core';
-import { type Application } from '@pixi/app';
+import { type Application } from 'pixi.js';
 
 type Position = {
     x: 'left' | 'right';
