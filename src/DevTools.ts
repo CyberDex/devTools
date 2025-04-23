@@ -41,13 +41,15 @@ export class DevTools extends Pane {
         this.container = container;
         this.setPosition(config?.position);
 
-        this.config?.app && this.init(this.config?.app);
+        if (this.config?.app) {
+            this.init(this.config?.app);
+        }
     }
 
     private async init(app: Application) {
         this.app = app;
 
-        (globalThis as any).__PIXI_APP__ = app;
+        window.__PIXI_APP__ = app;
 
         this.debugFolder = this.addFolder({
             title: 'Debug',
@@ -132,7 +134,11 @@ export class DevTools extends Pane {
         this.debugFolder
             .addBinding({ MobileConsole: false }, 'MobileConsole')
             .on('change', ({ value }) => {
-                value ? initMobileConsole() : removeMobileConsole();
+                if (value) {
+                    initMobileConsole();
+                } else {
+                    removeMobileConsole();
+                }
             });
     }
 
