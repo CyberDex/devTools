@@ -12,7 +12,7 @@ type Position = {
 };
 
 type DevToolsConfig = {
-    app: Application;
+    app?: Application;
     position?: Position;
     gameName?: string;
     gameVersion?: string;
@@ -20,7 +20,6 @@ type DevToolsConfig = {
 
 export class DevTools extends Pane {
     protected container: HTMLDivElement;
-    private app!: Application;
 
     pixiStats!: PixiStats | null;
     debugFolder!: FolderApi;
@@ -41,16 +40,10 @@ export class DevTools extends Pane {
         this.container = container;
         this.setPosition(config?.position);
 
-        if (this.config?.app) {
-            this.init(this.config?.app);
-        }
+        this.init(this.config?.app);
     }
 
-    private async init(app: Application) {
-        this.app = app;
-
-        window.__PIXI_APP__ = app;
-
+    private async init(app?: Application) {
         this.debugFolder = this.addFolder({
             title: 'Debug',
             expanded: false,
@@ -62,12 +55,22 @@ export class DevTools extends Pane {
 
         this.addMobileConsole();
 
-        this.addPixiStats();
+        if (app) {
+            this.app = app;
+        }
+
         this.loadState();
 
         this.on('change', () => this.saveState());
         document.body?.appendChild(this.container);
     }
+
+    set app(app: Application) {
+        window.__PIXI_APP__ = app;
+        this.config.app = app;
+        this.addPixiStats();
+    }
+
 
     setPosition(position?: Position) {
         this.container.style.position = 'fixed';
@@ -120,8 +123,8 @@ export class DevTools extends Pane {
     }
 
     protected updatePixiStats(enabled: boolean) {
-        if (enabled && !this.pixiStats) {
-            this.pixiStats = new PixiStats(this.app);
+        if (enabled && !this.pixiStats && this.config?.app) {
+            this.pixiStats = new PixiStats(this.config?.app);
         }
 
         if (!enabled && this.pixiStats) {
